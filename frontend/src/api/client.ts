@@ -47,7 +47,8 @@ export async function apiFetch<T>(ruta: string, opciones: RequestInit = {}): Pro
     throw new ApiError('No se pudo conectar con la API. Ejecuta "npm run api".', 0);
   }
 
-  if (respuesta.status === 401) {
+  // Solo cerrar sesión si sí enviamos un token y la API lo rechazó.
+  if (respuesta.status === 401 && token) {
     onUnauthorized();
   }
 

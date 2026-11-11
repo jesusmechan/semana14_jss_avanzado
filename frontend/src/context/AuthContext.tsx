@@ -2,8 +2,8 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react';
@@ -37,24 +37,31 @@ function cargarSesion(): Sesion | null {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [sesion, setSesion] = useState<Sesion | null>(() => cargarSesion());
+  const sesionRef = useRef(sesion);
+  sesionRef.current = sesion;
 
   const cerrarSesion = useCallback(() => {
     localStorage.removeItem(SESION_KEY);
     sessionStorage.removeItem(SESION_KEY);
+    sesionRef.current = null;
     setSesion(null);
   }, []);
 
-  useEffect(() => {
-    configurarAuth(
-      () => sesion?.token ?? null,
-      () => cerrarSesion(),
-    );
-  }, [sesion, cerrarSesion]);
+  const cerrarSesionRef = useRef(cerrarSesion);
+  cerrarSesionRef.current = cerrarSesion;
+
+  // Se registra en el render (no en useEffect) para que hijos como Cuenta
+  // ya tengan el token al pedir /pedidos justo después del login.
+  configurarAuth(
+    () => sesionRef.current?.token ?? null,
+    () => cerrarSesionRef.current(),
+  );
 
   const guardar = useCallback((nueva: Sesion, recordar: boolean) => {
     localStorage.removeItem(SESION_KEY);
     sessionStorage.removeItem(SESION_KEY);
     (recordar ? localStorage : sessionStorage).setItem(SESION_KEY, JSON.stringify(nueva));
+    sesionRef.current = nueva;
     setSesion(nueva);
   }, []);
 

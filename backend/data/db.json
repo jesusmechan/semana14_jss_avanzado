@@ -324,6 +324,38 @@
       },
       "estado": "pagado",
       "fecha": "2026-10-28T05:55:38.485Z"
+    },
+    {
+      "id": 4,
+      "numero": "1000004",
+      "usuarioId": 1,
+      "tipo": "compra",
+      "items": [
+        {
+          "productoId": 1,
+          "nombre": "Royal Canin Gato Adulto",
+          "precio": 134.9,
+          "cantidad": 1
+        },
+        {
+          "productoId": 2,
+          "nombre": "Whiskas Atún",
+          "precio": 34.5,
+          "cantidad": 1
+        }
+      ],
+      "subtotal": 169.4,
+      "igv": 30.49,
+      "total": 199.89,
+      "pago": {
+        "metodo": "mercadopago",
+        "paymentId": "PAY01M75BN7N5TB77G0Y39Q3DR4GJ",
+        "paymentMethod": "master",
+        "email": "comprador.dancypet@gmail.com",
+        "status": "approved"
+      },
+      "estado": "pagado",
+      "fecha": "2026-11-11T13:09:49.674Z"
     }
   ]
 }

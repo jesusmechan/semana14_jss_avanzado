@@ -26,6 +26,7 @@ const MENSAJES_RECHAZO = {
   invalid_installments: 'El número de cuotas no es válido.',
   max_attempts_exceeded: 'Demasiados intentos. Espera un momento e inténtalo de nuevo.',
   cc_rejected_duplicated_payment: 'Pago duplicado. Espera un momento e inténtalo de nuevo.',
+  failed: 'El pago fue rechazado. En prueba el titular debe ser exactamente APRO (tarjeta 5031 7557 3453 0604, vence 11/30, CVV 123, DNI 12345678).',
 };
 
 /**
@@ -54,28 +55,63 @@ export async function cobrarMercadoPago({ monto, descripcion, formData, items = 
     throw new HttpError(502, 'No se pudo contactar con Mercado Pago. Inténtalo de nuevo.');
   }
 
-  const data = await respuesta.json().catch(() => ({}));
-  const pago = data.transactions?.payments?.[0] ?? {};
-  const estado = data.status || pago.status;
-  const detalle = data.status_detail || pago.status_detail;
+  const raw = await respuesta.json().catch(() => ({}));
+  // En error, MP envuelve la orden en `{ errors, data }`; en éxito viene la orden directa.
+  const orden = raw.data && (raw.errors || raw.data.transactions) ? raw.data : raw;
+  const pago = orden.transactions?.payments?.[0] ?? {};
+  const estado = orden.status || pago.status;
+  const detalle =
+    pago.status_detail ||
+    orden.status_detail ||
+    raw.errors?.[0]?.details?.[0]?.message ||
+    raw.errors?.[0]?.details?.[0]?.code ||
+    raw.errors?.[0]?.code;
 
   if (estado === 'processed' || estado === 'accredited') {
     return {
       metodo: 'mercadopago',
-      paymentId: pago.id || data.id,
+      paymentId: pago.id || orden.id,
       paymentMethod: pago.payment_method?.id || formData.payment_method_id,
       ...(formData.payer?.email && { email: formData.payer.email }),
       status: 'approved',
     };
   }
 
-  if (!respuesta.ok) console.error('Mercado Pago', respuesta.status, data);
-  throw new HttpError(402, mensajeDeMercadoPago(respuesta.status, data, detalle));
+  if (!respuesta.ok || estado === 'failed' || estado === 'rejected') {
+    console.error('Mercado Pago', respuesta.status, {
+      estado,
+      detalle,
+      pago: {
+        status: pago.status,
+        status_detail: pago.status_detail,
+        status_detail_code: pago.status_detail,
+      },
+      errors: raw.errors,
+    });
+  }
+
+  throw new HttpError(402, mensajeDeMercadoPago(respuesta.status, raw, detalle));
 }
 
 function mensajeDeMercadoPago(status, data, detalle) {
   const causa = data.errors?.[0] || data.cause?.[0] || {};
-  const texto = [data.message, data.error, detalle, causa.message, causa.description, causa.code]
+  const detalleAnidado = Array.isArray(causa.details) ? causa.details[0] : null;
+  const codigoDetalle =
+    detalle ||
+    detalleAnidado?.code ||
+    detalleAnidado?.message ||
+    causa.code;
+
+  const texto = [
+    data.message,
+    data.error,
+    detalle,
+    causa.message,
+    causa.description,
+    causa.code,
+    detalleAnidado?.message,
+    detalleAnidado?.code,
+  ]
     .filter(Boolean)
     .join(' ')
     .toLowerCase();
@@ -92,7 +128,16 @@ function mensajeDeMercadoPago(status, data, detalle) {
   if (status === 401 && (texto.includes('invalid') || texto.includes('unauthorized') || texto.includes('malformed'))) {
     return 'Las credenciales de Mercado Pago no son válidas. Revisa MP_ACCESS_TOKEN en backend/.env (el Access Token largo, no la Public Key).';
   }
-  return MENSAJES_RECHAZO[detalle] || MENSAJES_RECHAZO[causa.code] || causa.message || causa.description || data.message || detalle || 'El pago no fue aprobado.';
+  return (
+    MENSAJES_RECHAZO[codigoDetalle] ||
+    MENSAJES_RECHAZO[detalle] ||
+    MENSAJES_RECHAZO[causa.code] ||
+    causa.message ||
+    causa.description ||
+    data.message ||
+    detalle ||
+    'El pago no fue aprobado. En prueba usa titular APRO.'
+  );
 }
 
 function armarCuerpo({ monto, descripcion, formData }) {
@@ -109,15 +154,24 @@ function armarCuerpo({ monto, descripcion, formData }) {
   };
   if (formData.token) pago.payment_method.token = formData.token;
 
+  const payer = {
+    email: CORREO_PAGADOR_PRUEBA,
+  };
+  const identificacion = formData.payer?.identification;
+  if (identificacion?.type && identificacion?.number) {
+    payer.identification = {
+      type: String(identificacion.type),
+      number: String(identificacion.number),
+    };
+  }
+
   return {
     type: 'online',
     processing_mode: 'automatic',
     total_amount: total,
     description: String(descripcion).slice(0, 80),
     external_reference: `dancypet-${randomUUID()}`,
-    payer: {
-      email: CORREO_PAGADOR_PRUEBA,
-    },
+    payer,
     transactions: {
       payments: [pago],
     },
