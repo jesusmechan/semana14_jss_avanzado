@@ -1,0 +1,19 @@
+{
+  "name": "dancypet-api",
+  "version": "1.0.0",
+  "description": "API REST de la tienda de mascotas DancyPet con Express y una base de datos JSON",
+  "type": "module",
+  "main": "src/server.js",
+  "private": true,
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "dev": "node --env-file-if-exists=.env --watch src/server.js"
+  },
+  "engines": {
+    "node": ">=22.9"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

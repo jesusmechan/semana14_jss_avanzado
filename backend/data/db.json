@@ -1,0 +1,329 @@
+{
+  "categorias": [
+    {
+      "id": 1,
+      "clave": "alimentar",
+      "nombre": "Alimentar",
+      "icono": "🍽️",
+      "subtitulo": "Alimentos y snacks"
+    },
+    {
+      "id": 2,
+      "clave": "cuidar",
+      "nombre": "Cuidar",
+      "icono": "🧴",
+      "subtitulo": "Higiene y salud"
+    },
+    {
+      "id": 3,
+      "clave": "jugar",
+      "nombre": "Jugar",
+      "icono": "🧶",
+      "subtitulo": "Juguetes y rascadores"
+    },
+    {
+      "id": 4,
+      "clave": "vivir",
+      "nombre": "Vivir mejor",
+      "icono": "🏠",
+      "subtitulo": "Arenas y accesorios"
+    }
+  ],
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Royal Canin Gato Adulto",
+      "descripcion": "Alimento seco completo para cada etapa de vida de tu gato. Fórmula con proteínas de alta calidad.",
+      "precio": 134.9,
+      "precioAnterior": 159.9,
+      "categoria": "alimentar",
+      "tipo": "alimento",
+      "imagen": "/imagenes/royalcanin.jpg",
+      "badge": "sale",
+      "disponible": true
+    },
+    {
+      "id": 2,
+      "nombre": "Whiskas Atún",
+      "descripcion": "Alimento húmedo con atún real. Pack de 12 unidades para el día a día de tu gato.",
+      "precio": 34.5,
+      "precioAnterior": null,
+      "categoria": "alimentar",
+      "tipo": "alimento",
+      "imagen": "/imagenes/whiskas.jpg",
+      "badge": "popular",
+      "disponible": true
+    },
+    {
+      "id": 3,
+      "nombre": "Snacks Dentales Felinos",
+      "descripcion": "Premios crujientes que ayudan a reducir el sarro y refrescar el aliento.",
+      "precio": 18.9,
+      "precioAnterior": null,
+      "categoria": "alimentar",
+      "tipo": "snack",
+      "imagen": "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=600&h=450&fit=crop",
+      "badge": "new",
+      "disponible": true
+    },
+    {
+      "id": 4,
+      "nombre": "Torre Rascadora",
+      "descripcion": "Para cuidar sus uñas y marcar su territorio. Sisal natural con plataformas.",
+      "precio": 229.9,
+      "precioAnterior": null,
+      "categoria": "jugar",
+      "tipo": "accesorio",
+      "imagen": "/imagenes/rascador.jpg",
+      "badge": "popular",
+      "disponible": true
+    },
+    {
+      "id": 5,
+      "nombre": "Túnel Interactivo",
+      "descripcion": "Diversión que estimula su instinto y lo mantiene activo. Plegable y liviano.",
+      "precio": 69.9,
+      "precioAnterior": null,
+      "categoria": "jugar",
+      "tipo": "juguete",
+      "imagen": "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=600&h=450&fit=crop",
+      "badge": "new",
+      "disponible": true
+    },
+    {
+      "id": 6,
+      "nombre": "Cama Acolchada",
+      "descripcion": "Cama suave con funda lavable. El rincón perfecto para sus siestas.",
+      "precio": 89.9,
+      "precioAnterior": 119.9,
+      "categoria": "vivir",
+      "tipo": "accesorio",
+      "imagen": "/imagenes/camaxl.jpg",
+      "badge": "sale",
+      "disponible": true
+    },
+    {
+      "id": 7,
+      "nombre": "Cepillo Deslanador",
+      "descripcion": "Elimina el pelo suelto y ayuda a prevenir bolas de pelo. Ideal para pelo corto y largo.",
+      "precio": 49.9,
+      "precioAnterior": null,
+      "categoria": "cuidar",
+      "tipo": "higiene",
+      "imagen": "https://images.unsplash.com/photo-1543852786-1cf6624b9737?w=600&h=450&fit=crop",
+      "badge": "popular",
+      "disponible": true
+    },
+    {
+      "id": 8,
+      "nombre": "Shampoo Hipoalergénico",
+      "descripcion": "Shampoo suave para gatos con piel sensible. Sin parabenos ni fragancias agresivas.",
+      "precio": 28,
+      "precioAnterior": null,
+      "categoria": "cuidar",
+      "tipo": "higiene",
+      "imagen": "/imagenes/shampoo.jpg",
+      "badge": null,
+      "disponible": true
+    },
+    {
+      "id": 9,
+      "nombre": "Pro Plan Gato Indoor",
+      "descripcion": "Alimento seco para gatos de interior. Control de bolas de pelo y peso.",
+      "precio": 95,
+      "precioAnterior": null,
+      "categoria": "alimentar",
+      "tipo": "alimento",
+      "imagen": "/imagenes/proplangato.jpg",
+      "badge": null,
+      "disponible": true
+    },
+    {
+      "id": 10,
+      "nombre": "Collar Ajustable",
+      "descripcion": "Collar ligero con cierre de seguridad. Pensado para el cuello de un gato.",
+      "precio": 35.9,
+      "precioAnterior": null,
+      "categoria": "vivir",
+      "tipo": "accesorio",
+      "imagen": "/imagenes/collarled.jpg",
+      "badge": "new",
+      "disponible": true
+    },
+    {
+      "id": 11,
+      "nombre": "Arena Sanitaria Premium",
+      "descripcion": "Arena aglomerante de alta absorción. Control de olores hasta 14 días.",
+      "precio": 42,
+      "precioAnterior": null,
+      "categoria": "vivir",
+      "tipo": "accesorio",
+      "imagen": "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=600&h=450&fit=crop",
+      "badge": null,
+      "disponible": true
+    },
+    {
+      "id": 12,
+      "nombre": "Ratón de Peluche",
+      "descripcion": "Juguete con catnip para gatos. Estimula el juego y el ejercicio diario.",
+      "precio": 15.9,
+      "precioAnterior": null,
+      "categoria": "jugar",
+      "tipo": "juguete",
+      "imagen": "/imagenes/raton.jpg",
+      "badge": null,
+      "disponible": true
+    },
+    {
+      "id": 13,
+      "nombre": "Croquetas Kitten",
+      "descripcion": "Alimento para gatitos con DHA para el desarrollo cerebral y visual.",
+      "precio": 78.5,
+      "precioAnterior": null,
+      "categoria": "alimentar",
+      "tipo": "alimento",
+      "imagen": "/imagenes/croquetas.jpg",
+      "badge": "popular",
+      "disponible": true
+    },
+    {
+      "id": 14,
+      "nombre": "Bebedero Automático",
+      "descripcion": "Fuente de agua con filtro. Invita a tu gato a hidratarse más durante el día.",
+      "precio": 55,
+      "precioAnterior": null,
+      "categoria": "vivir",
+      "tipo": "accesorio",
+      "imagen": "/imagenes/bebedero.jpg",
+      "badge": null,
+      "disponible": true
+    },
+    {
+      "id": 15,
+      "nombre": "Pasta Antipelo",
+      "descripcion": "Complemento que ayuda a eliminar las bolas de pelo de forma natural.",
+      "precio": 24.9,
+      "precioAnterior": null,
+      "categoria": "cuidar",
+      "tipo": "higiene",
+      "imagen": "https://images.unsplash.com/photo-1606214174585-fe31582dc6ee?w=600&h=450&fit=crop",
+      "badge": null,
+      "disponible": true
+    },
+    {
+      "id": 16,
+      "nombre": "Caña con Plumas",
+      "descripcion": "Juguete de varilla para despertar su instinto de caza. Incluye recambio de plumas.",
+      "precio": 22.9,
+      "precioAnterior": 29.9,
+      "categoria": "jugar",
+      "tipo": "juguete",
+      "imagen": "https://images.unsplash.com/photo-1511044568932-338cba0ad803?w=600&h=450&fit=crop",
+      "badge": "sale",
+      "disponible": true
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Jesús Manuel Mechan Gonzales",
+      "email": "jesusmanuelmechan@gmail.com",
+      "passwordHash": "7a11d88cfd52e9c66a85fc01613711b3:51ca59c7ed2c3c63b9f6a191c06cc5fcc595e4b55906cb1af5c102d7d881c48dace4e6d9c3e2f0d6377f9344503f23e56627a664de2298039f9c1258ce3c6051",
+      "rol": "cliente",
+      "creadoEn": "2026-10-14T06:55:07.254Z"
+    }
+  ],
+  "mascotas": [
+    {
+      "id": 1,
+      "usuarioId": 1,
+      "nombre": "Maia",
+      "tipo": "gato",
+      "edad": 4,
+      "peso": 4.5,
+      "tipoComida": "premium",
+      "icono": "🐱",
+      "foto": ""
+    }
+  ],
+  "pedidos": [
+    {
+      "id": 1,
+      "numero": "1000001",
+      "usuarioId": 1,
+      "tipo": "compra",
+      "items": [
+        {
+          "productoId": 2,
+          "nombre": "Whiskas Atún",
+          "precio": 34.5,
+          "cantidad": 1
+        }
+      ],
+      "subtotal": 34.5,
+      "igv": 6.21,
+      "total": 40.71,
+      "pago": {
+        "metodo": "mercadopago",
+        "paymentId": "PAY01M60GVH7BM59AAR5G94JAK6KF",
+        "paymentMethod": "master",
+        "email": "comprador.dancypet@gmail.com",
+        "status": "approved"
+      },
+      "estado": "pagado",
+      "fecha": "2026-10-28T05:48:48.711Z"
+    },
+    {
+      "id": 2,
+      "numero": "1000002",
+      "usuarioId": 1,
+      "tipo": "compra",
+      "items": [
+        {
+          "productoId": 12,
+          "nombre": "Ratón de Peluche",
+          "precio": 15.9,
+          "cantidad": 1
+        }
+      ],
+      "subtotal": 15.9,
+      "igv": 2.86,
+      "total": 18.76,
+      "pago": {
+        "metodo": "mercadopago",
+        "paymentId": "PAY01M60H1ZP7CN868ECQBN86XYYJ",
+        "paymentMethod": "master",
+        "email": "comprador.dancypet@gmail.com",
+        "status": "approved"
+      },
+      "estado": "pagado",
+      "fecha": "2026-10-28T05:52:20.217Z"
+    },
+    {
+      "id": 3,
+      "numero": "1000003",
+      "usuarioId": 1,
+      "tipo": "compra",
+      "items": [
+        {
+          "productoId": 11,
+          "nombre": "Alimento Flakes Tropical",
+          "precio": 22,
+          "cantidad": 1
+        }
+      ],
+      "subtotal": 22,
+      "igv": 3.96,
+      "total": 25.96,
+      "pago": {
+        "metodo": "mercadopago",
+        "paymentId": "PAY01M60H81BW8BC0FF8NXG5QW0JP",
+        "paymentMethod": "master",
+        "email": "comprador.dancypet@gmail.com",
+        "status": "approved"
+      },
+      "estado": "pagado",
+      "fecha": "2026-10-28T05:55:38.485Z"
+    }
+  ]
+}
