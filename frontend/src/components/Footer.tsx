@@ -48,6 +48,14 @@ export function Footer() {
           </ul>
         </div>
       </div>
+      <div className="footer__stack container">
+        <span className="badge text-bg-primary">React + TSX</span>
+        <span className="badge text-bg-success">Bootstrap 5</span>
+        <span className="badge text-bg-info">Fetch API</span>
+        <span className="badge text-bg-warning text-dark">Axios</span>
+        <span className="badge text-bg-dark">Alova</span>
+        <span className="badge text-bg-secondary">Hooks</span>
+      </div>
       <div className="footer__bottom container">
         <p>&copy; {anio} DancyPet. Todos los derechos reservados.</p>
         <div className="footer__social">

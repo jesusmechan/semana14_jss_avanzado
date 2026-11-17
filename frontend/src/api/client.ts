@@ -23,6 +23,16 @@ export function configurarAuth(getter: TokenGetter, unauthorized: OnUnauthorized
   onUnauthorized = unauthorized;
 }
 
+/** Token actual para Fetch, Axios y Alova. */
+export function obtenerToken(): string | null {
+  return getToken();
+}
+
+/** Cierra sesión cuando la API responde 401 con token enviado. */
+export function avisarNoAutorizado(): void {
+  onUnauthorized();
+}
+
 export function mensajeDeError(err: unknown, porDefecto = 'Ocurrió un error inesperado.'): string {
   if (err instanceof TypeError) return 'No se pudo conectar con la API. Ejecuta "npm run api".';
   if (!(err instanceof ApiError)) return porDefecto;

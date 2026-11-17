@@ -231,6 +231,14 @@
       "passwordHash": "7a11d88cfd52e9c66a85fc01613711b3:51ca59c7ed2c3c63b9f6a191c06cc5fcc595e4b55906cb1af5c102d7d881c48dace4e6d9c3e2f0d6377f9344503f23e56627a664de2298039f9c1258ce3c6051",
       "rol": "cliente",
       "creadoEn": "2026-10-14T06:55:07.254Z"
+    },
+    {
+      "id": 2,
+      "nombre": "Demo DancyPet",
+      "email": "demo.dancypet@gmail.com",
+      "passwordHash": "242b8e4c20c3a9250da79acc5280dcfb:d70c0d8b7dcdb18fea818649cfd136073ee34755a99fbcc388bc11b06c332de915f62748f990a665b83b9d2a4aa1f89d9f609d5f1e0b5a9b7a9b181032493d72",
+      "rol": "cliente",
+      "creadoEn": "2026-11-16T22:32:02.628Z"
     }
   ],
   "mascotas": [
@@ -356,6 +364,64 @@
       },
       "estado": "pagado",
       "fecha": "2026-11-11T13:09:49.674Z"
+    },
+    {
+      "id": 5,
+      "numero": "1000005",
+      "usuarioId": 1,
+      "tipo": "compra",
+      "items": [
+        {
+          "productoId": 1,
+          "nombre": "Royal Canin Gato Adulto",
+          "precio": 134.9,
+          "cantidad": 1
+        }
+      ],
+      "subtotal": 134.9,
+      "igv": 24.28,
+      "total": 159.18,
+      "pago": {
+        "metodo": "mercadopago",
+        "paymentId": "PAY01M7K3GQ9VPAP2Z1G1FHGRM6VJ",
+        "paymentMethod": "master",
+        "email": "comprador.dancypet@gmail.com",
+        "status": "approved"
+      },
+      "estado": "pagado",
+      "fecha": "2026-11-16T21:16:56.691Z"
+    },
+    {
+      "id": 6,
+      "numero": "1000006",
+      "usuarioId": 1,
+      "tipo": "compra",
+      "items": [
+        {
+          "productoId": 1,
+          "nombre": "Royal Canin Gato Adulto",
+          "precio": 134.9,
+          "cantidad": 1
+        },
+        {
+          "productoId": 2,
+          "nombre": "Whiskas Atún",
+          "precio": 34.5,
+          "cantidad": 1
+        }
+      ],
+      "subtotal": 169.4,
+      "igv": 30.49,
+      "total": 199.89,
+      "pago": {
+        "metodo": "mercadopago",
+        "paymentId": "PAY01M7KFGNTH144Y2GY4EZJEM3MY",
+        "paymentMethod": "master",
+        "email": "comprador.dancypet@gmail.com",
+        "status": "approved"
+      },
+      "estado": "pagado",
+      "fecha": "2026-11-17T00:46:38.499Z"
     }
   ]
 }

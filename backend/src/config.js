@@ -11,8 +11,10 @@ if (!process.env.TOKEN_SECRET) {
 export const config = {
   port: Number(process.env.PORT) || 3001,
   dbPath: process.env.DB_PATH || path.join(raiz, 'data', 'db.json'),
-  // Orígenes permitidos separados por coma; por defecto el servidor de desarrollo de Angular.
-  corsOrigins: (process.env.CORS_ORIGINS || 'http://localhost:4200').split(',').map((o) => o.trim()),
+  // Orígenes permitidos separados por coma (Vite 5173/5174 y Angular 4200).
+  corsOrigins: (process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:5174,http://localhost:4200')
+    .split(',')
+    .map((o) => o.trim()),
   tokenSecret: process.env.TOKEN_SECRET || randomBytes(32).toString('hex'),
   tokenDuracionHoras: Number(process.env.TOKEN_DURACION_HORAS) || 24 * 7,
   mpPublicKey: (process.env.MP_PUBLIC_KEY || '').trim(),

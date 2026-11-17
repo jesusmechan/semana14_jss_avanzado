@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useRequest } from 'alova/client';
+import { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { categoriasMethod } from '../api/categorias';
 import { mensajeDeError } from '../api/client';
-import { listarCategorias, listarProductos } from '../api/productos';
+import { listarProductos } from '../api/productos';
 import { ProductoCard } from '../components/ProductoCard';
-import type { Categoria, Orden, Producto } from '../types/producto';
+import { useResource } from '../hooks/useResource';
+import type { Orden, Producto } from '../types/producto';
 import { filtrarProductos } from '../utils/filtrarProductos';
 
 const ordenes: { valor: Orden; texto: string }[] = [
@@ -17,27 +20,35 @@ export function Productos() {
   const [searchParams] = useSearchParams();
   const categoriaActiva = searchParams.get('categoria') || 'todos';
 
-  const [productos, setProductos] = useState<Producto[]>([]);
-  const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [busqueda, setBusqueda] = useState('');
   const [orden, setOrden] = useState<Orden>('default');
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState('');
 
-  useEffect(() => {
-    document.title = 'Tienda | DancyPet';
-    const minDelay = new Promise((r) => setTimeout(r, 500));
-    Promise.all([listarProductos(), listarCategorias(), minDelay])
-      .then(([prods, cats]) => {
-        setProductos(prods);
-        setCategorias(cats);
-        setCargando(false);
-      })
-      .catch((err) => {
-        setError(mensajeDeError(err));
-        setCargando(false);
-      });
-  }, []);
+  // Alova: categorías (resource strategy useRequest)
+  const {
+    loading: cargandoCategorias,
+    data: categorias = [],
+    error: errorCategorias,
+  } = useRequest(categoriasMethod(), { initialData: [] });
+
+  // Resource Hook + Fetch API: productos
+  const {
+    data: productos = [],
+    loading: cargandoProductos,
+    error: errorProductos,
+  } = useResource<Producto[]>(
+    () =>
+      new Promise<Producto[]>((resolve, reject) => {
+        const minDelay = new Promise((r) => setTimeout(r, 500));
+        Promise.all([listarProductos(), minDelay])
+          .then(([prods]) => resolve(prods))
+          .catch(reject);
+      }),
+    [],
+    (err) => mensajeDeError(err),
+  );
+
+  const cargando = cargandoCategorias || cargandoProductos;
+  const error = errorProductos || (errorCategorias ? mensajeDeError(errorCategorias) : '');
 
   const filtrados = useMemo(
     () => filtrarProductos(productos, categoriaActiva, busqueda, orden),
@@ -105,7 +116,11 @@ export function Productos() {
           </select>
         </div>
 
-        {error && <div className="alert alert--error">{error}</div>}
+        {error && (
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        )}
 
         {cargando && (
           <div className="products__grid" aria-hidden="true">

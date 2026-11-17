@@ -1,36 +1,48 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { listarCategoriasAlova } from '../api/categorias';
 import { mensajeDeError } from '../api/client';
-import { listarCategorias, obtenerProducto } from '../api/productos';
+import { obtenerProducto } from '../api/productos';
 import { BadgeProducto } from '../components/BadgeProducto';
 import { MAX_CANTIDAD, useCarrito } from '../context/CarritoContext';
 import { useToast } from '../context/ToastContext';
+import { useResource } from '../hooks/useResource';
 import type { Producto } from '../types/producto';
 import { soles, titleCase } from '../utils/format';
 import { usarImagenRespaldo } from '../utils/imagen';
+
+interface DetalleCarga {
+  producto: Producto;
+  categoria: string;
+}
 
 export function ProductoDetalle() {
   const { id } = useParams();
   const carrito = useCarrito();
   const toast = useToast();
   const navigate = useNavigate();
-
-  const [producto, setProducto] = useState<Producto>();
-  const [categoria, setCategoria] = useState('');
   const [cantidad, setCantidad] = useState(1);
-  const [error, setError] = useState('');
+
+  // Resource Hook: combina Fetch (producto) + Alova (categorías)
+  const { data, error } = useResource<DetalleCarga>(
+    async () => {
+      if (!id) throw new Error('Producto no válido');
+      const [prod, cats] = await Promise.all([obtenerProducto(+id), listarCategoriasAlova()]);
+      return {
+        producto: prod,
+        categoria: cats.find((c) => c.clave === prod.categoria)?.nombre ?? prod.categoria,
+      };
+    },
+    [id],
+    (err) => mensajeDeError(err, 'No se encontró el producto.'),
+  );
+
+  const producto = data?.producto;
+  const categoria = data?.categoria ?? '';
 
   useEffect(() => {
-    document.title = 'Producto | DancyPet';
-    if (!id) return;
-    Promise.all([obtenerProducto(+id), listarCategorias()])
-      .then(([prod, cats]) => {
-        setProducto(prod);
-        setCategoria(cats.find((c) => c.clave === prod.categoria)?.nombre ?? prod.categoria);
-        document.title = `${prod.nombre} | DancyPet`;
-      })
-      .catch((err) => setError(mensajeDeError(err, 'No se encontró el producto.')));
-  }, [id]);
+    document.title = producto ? `${producto.nombre} | DancyPet` : 'Producto | DancyPet';
+  }, [producto]);
 
   const ahorro = producto?.precioAnterior ? producto.precioAnterior - producto.precio : 0;
 
@@ -65,7 +77,7 @@ export function ProductoDetalle() {
         </nav>
 
         {error && (
-          <div className="alert alert--error">
+          <div className="alert alert-danger" role="alert">
             {error} <Link to="/productos">Volver al catálogo</Link>
           </div>
         )}
@@ -125,7 +137,9 @@ export function ProductoDetalle() {
                   </div>
                 </>
               ) : (
-                <p className="alert alert--error">Producto no disponible por el momento.</p>
+                <p className="alert alert-warning" role="alert">
+                  Producto no disponible por el momento.
+                </p>
               )}
               <ul className="about__list product-detail__perks">
                 <li>🚚 Entrega en 24-48 horas en Lima Metropolitana</li>

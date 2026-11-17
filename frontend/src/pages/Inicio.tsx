@@ -1,9 +1,13 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useRequest } from 'alova/client';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { listarCategorias, listarProductos } from '../api/productos';
+import { categoriasMethod } from '../api/categorias';
+import { mensajeDeError } from '../api/client';
+import { listarProductos } from '../api/productos';
 import { ProductoCard } from '../components/ProductoCard';
 import { useToast } from '../context/ToastContext';
-import type { Categoria, Producto } from '../types/producto';
+import { useResource } from '../hooks/useResource';
+import type { Producto } from '../types/producto';
 import { usarImagenRespaldo } from '../utils/imagen';
 
 const razones = [
@@ -57,20 +61,30 @@ const beneficios = [
 
 export function Inicio() {
   const toast = useToast();
-  const [categorias, setCategorias] = useState<Categoria[]>([]);
-  const [destacados, setDestacados] = useState<Producto[]>([]);
-  const [error, setError] = useState(false);
   const [correo, setCorreo] = useState('');
   const [tocado, setTocado] = useState(false);
 
+  // Alova useRequest: categorías
+  const {
+    data: categorias = [],
+    error: errorCategorias,
+  } = useRequest(categoriasMethod(), { initialData: [] });
+
+  // Resource Hook + Fetch: productos destacados
+  const { data: productos = [], error: errorProductos } = useResource<Producto[]>(
+    listarProductos,
+    [],
+    (err) => mensajeDeError(err),
+  );
+
+  const destacados = useMemo(
+    () => productos.filter((p) => p.badge && p.disponible).slice(0, 4),
+    [productos],
+  );
+  const error = Boolean(errorCategorias || errorProductos);
+
   useEffect(() => {
     document.title = 'DancyPet — Todo para tu gato';
-    Promise.all([listarCategorias(), listarProductos()])
-      .then(([cats, productos]) => {
-        setCategorias(cats);
-        setDestacados(productos.filter((p) => p.badge && p.disponible).slice(0, 4));
-      })
-      .catch(() => setError(true));
   }, []);
 
   const nombreCategoria = (clave: string) => categorias.find((c) => c.clave === clave)?.nombre ?? clave;
@@ -161,7 +175,7 @@ export function Inicio() {
             <p>Cada categoría existe para resolver algo real en su día a día</p>
           </div>
           {error && (
-            <div className="alert alert--error">
+            <div className="alert alert-danger" role="alert">
               No se pudo conectar con la API. Ejecuta <code>npm run api</code> para iniciar el backend.
             </div>
           )}

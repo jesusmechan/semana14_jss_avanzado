@@ -11,11 +11,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "alova": "^3.5.5",
+    "axios": "^1.21.1",
+    "bootstrap": "^5.3.9",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.11",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^5.0.0",

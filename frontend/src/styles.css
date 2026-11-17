@@ -1394,7 +1394,7 @@ button, input, select {
 }
 
 /* ---- Toast ---- */
-.toast {
+.app-toast {
   position: fixed;
   bottom: 2rem;
   left: 50%;
@@ -1412,7 +1412,7 @@ button, input, select {
   white-space: nowrap;
 }
 
-.toast.show {
+.app-toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
@@ -2671,4 +2671,47 @@ textarea.is-invalid {
   .account-stats dd {
     font-size: 1.05rem;
   }
+}
+
+/* ---- Bootstrap 5: badges del stack técnico + tema DancyPet por encima ---- */
+.footer__stack {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 0 0.25rem;
+}
+
+.footer__stack .badge {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Restaura el layout DancyPet frente a utilidades globales de Bootstrap */
+.container {
+  width: min(1200px, 92%);
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid transparent;
+  line-height: 1.2;
+}
+
+.alert a {
+  color: inherit;
+  text-decoration: underline;
 }
